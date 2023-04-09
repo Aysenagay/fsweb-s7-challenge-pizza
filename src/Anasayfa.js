@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 import "./Anasayfa.css";
+import Menu from "./Menu";
 
 export default function Anasayfa() {
   return (
@@ -12,14 +13,13 @@ export default function Anasayfa() {
               <h1>Teknolojik Yemekler</h1>
               <p>Herkesin sevdiği lezzet:Pizza!</p>
             </div>
-            <Link to="/Menu.js">
+            <Link to="/Menu">
               <button className="anasayfabuton">SİPARİŞİNİ HEMEN VER!</button>
             </Link>
-            <img
-              alt="anasayfaPizza"
-              className="anasayfafoto"
-              src="https://d17wu0fn6x6rgz.cloudfront.net/img/w/tarif/mgt/italyan_pizza.webp"
-            ></img>
+            <img alt="anasayfaPizza" className="anasayfafoto" src=""></img>
+          </Route>
+          <Route exact path="/Menu">
+            <Menu />
           </Route>
         </Switch>
       </BrowserRouter>

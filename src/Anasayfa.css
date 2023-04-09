@@ -1,0 +1,47 @@
+body {
+  background-color: rgb(160, 20, 20);
+  background-image: url(https://i.pinimg.com/564x/3d/09/bf/3d09bf849549a87fa1216ef71c6ff289.jpg);
+}
+.baslik {
+  text-align: center;
+  margin: auto;
+  font-family: "Barlow", sans-serif;
+}
+.anasayfafoto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  margin: auto;
+}
+
+.anasayfafoto img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.anasayfabuton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-color: rgb(159, 239, 159);
+  font-size: 1.5rem; /* varsayılan font boyutunu 1.5rem olarak ayarladım */
+  padding: 1rem 2rem; /* butonun boyutunu arttırmak için padding ekledim */
+  border: none; /* varsayılan kenarlık kaldırdım */
+  border-radius: 0.5rem; /* butona yuvarlak köşe ekledim */
+  transition: all 0.3s ease; /* hover efekti için geçiş efekti ekledim */
+}
+
+.anasayfabuton:hover {
+  transform: translateY(
+    -10px
+  ); /* butonun yukarı doğru 5 piksel kaymasını sağlıyoruz */
+  background-color: rgb(
+    129,
+    209,
+    129
+  ); /* hover durumunda arkaplan rengini değiştiriyoruz */
+  font-size: 1.7rem; /* hover durumunda font boyutunu 1.7rem yapıyoruz */
+  cursor: pointer; /* butonun üzerine gelindiğinde imlecin görünümünü değiştiriyoruz */
+}

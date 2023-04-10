@@ -1,7 +1,7 @@
-import "./OrderForm.css";
+import "./Orderform.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import * as Yup from "yup";
+import * as yup from "yup";
 
 const schema = yup.object().shape({
   hamburgerMenuSelection: yup.string().required("Make your choice"),
@@ -132,7 +132,7 @@ export default function OrderForm() {
     <div className="ordercontainer">
       <form onSubmit={handleSubmit}>
         <div className="hamburgerselection">
-          <h3>Hamburger türünü seçiniz.</h3>
+          <h3>Choose type of hamburger.</h3>
           <select
             name="hamburgerselection"
             value={form.hamburgerselection}
@@ -338,7 +338,7 @@ export default function OrderForm() {
           disabled={buttonDisabledMı}
           value="Send Order"
         />
-        {newSiparis && (
+        {newOrder && (
           <p className="confirmation">Your order has been Confirmed</p>
         )}
       </form>

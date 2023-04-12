@@ -2,80 +2,80 @@ import "./Orderform.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as yup from "yup";
+import { useHistory } from "react-router-dom";
+import Success from "./Success";
 
 const schema = yup.object().shape({
-  hamburgerMenuSelection: yup.string().required("Make your choice"),
-  name: yup
+  pizza_kalinlik: yup.string().required("Seçim yapınız."),
+  isim_soyisim: yup
     .string()
     .required()
-    .min(2, "The name must be at least two characters"),
+    .min(3, "isim en az 3 karakter olmalıdır"),
   size: yup
     .string()
-    .oneOf(["Small", "Medium", "Large"], "You must choose one.")
+    .oneOf(["Small", "Medium", "Large"], "Boyutlardan birini seçmelisiniz.")
     .required(),
-  adress: yup
+  adres: yup
     .string()
-    .required("Enter the address")
-    .min(10, "At least 10 characters must be entered"),
-  telephone: yup
+    .required("Adres alanı girilmelidir.")
+    .min(10, "En az 10 karakter girilmelidir."),
+  telefon: yup
     .number()
-    .typeError("The number must be entered as a number")
-    .required("Enter phone number.")
-    .min(10, "The phone number must be entered as 10 digits."),
-  numberoforders: yup.number().required("Enter order quantity"),
+    .typeError("Numara sayı olarak girilmeli.")
+    .required("Lütfen telefon numarası girin.")
+    .min(10, "Telefon numarası 10 hane olarak girilmelidir."),
+  siparisadedi: yup.number().required("Lütfen sipariş adedini girin!"),
 
-  mushrooms: yup.boolean().oneOf([true, false], ""),
+  salami: yup.boolean().oneOf([true, false], ""),
+  sausage: yup.boolean().oneOf([true, false], ""),
+  bacon: yup.boolean().oneOf([true, false], ""),
   tomatoes: yup.boolean().oneOf([true, false], ""),
+  mushrooms: yup.boolean().oneOf([true, false], ""),
   pepper: yup.boolean().oneOf([true, false], ""),
-  cheddar: yup.boolean().oneOf([true, false], ""),
-  lettuce: yup.boolean().oneOf([true, false], ""),
-  ketchup: yup.boolean().oneOf([true, false], ""),
-  mayonnaise: yup.boolean().oneOf([true, false], ""),
-  mustard: yup.boolean().oneOf([true, false], ""),
-  ordernot: yup.string(),
+  mint: yup.boolean().oneOf([true, false], ""),
+  not: yup.string(),
 });
 
-export default function OrderForm() {
+export default function Form() {
   const [form, setForm] = useState({
-    hamburgerMenuSelection: "",
-    name: "",
-    size: "none",
-    adress: "",
-    telephone: "",
-    mushrooms: "",
-    tomatoes: "",
-    pepper: "",
-    cheddar: "",
-    lettuce: "",
-    ketchup: "",
-    mayonnaise: "",
-    mustard: "",
-    ordernot: "",
-    numberoforders: "",
+    pizza_kalinlik: "",
+    size: "",
+    salami: false,
+    sausage: false,
+    tomatoes: false,
+    mushrooms: false,
+    pepper: false,
+    mint: false,
+    isim_soyisim: "",
+    adres: "",
+    telefon: "",
+    not: "",
+    siparisadedi: "",
   });
+
   const [errors, setErrors] = useState({
-    hamburgerMenuSelection: "",
-    name: "",
-    size: "none",
-    adress: "",
-    telephone: "",
-    mushrooms: "",
+    pizza_kalinlik: "",
+    size: "",
+    salami: "",
+    sausage: "",
     tomatoes: "",
+    mushrooms: "",
     pepper: "",
-    cheddar: "",
-    lettuce: "",
-    ketchup: "",
-    mayonnaise: "",
-    mustard: "",
-    ordernot: "",
-    numberoforders: "",
+    mint: "",
+    isim_soyisim: "",
+    adres: "",
+    telefon: "",
+    not: "",
+    siparisadedi: "",
   });
+
   const [buttonDisabledMı, setbuttonDisabledMı] = useState(true);
   const [newOrder, setnewOrder] = useState(null);
 
   useEffect(() => {
     schema.isValid(form).then((valid) => setbuttonDisabledMı(!valid));
   }, [form]);
+
   function handleChange(event) {
     const { name, value } = event.target;
     formControl(name, value);
@@ -84,6 +84,7 @@ export default function OrderForm() {
       [name]: value,
     });
   }
+
   function formControl(name, value) {
     yup
       .reach(schema, name)
@@ -101,247 +102,239 @@ export default function OrderForm() {
         });
       });
   }
+
   function handleSubmit(event) {
-    event.PreventDefault();
+    event.preventDefault();
     axios
       .post("https://reqres.in/api/users", form)
       .then((response) => {
         console.log(response.data);
         setnewOrder(response.data);
         setForm({
-          hamburgerMenuSelection: "",
-          name: "",
-          size: "none",
-          adress: "",
-          telephone: "",
-          mushrooms: "false",
-          tomatoes: "false",
-          pepper: "false",
-          cheddar: "false",
-          lettuce: "false",
-          ketchup: "false",
-          mayonnaise: "false",
-          mustard: "false",
-          ordernot: "",
-          numberoforders: "",
+          pizza_kalinlik: "",
+          size: "",
+          salami: false,
+          sausage: false,
+          tomatoes: false,
+          mushrooms: false,
+          pepper: false,
+          mint: false,
+          isim_soyisim: "",
+          adres: "",
+          telefon: "",
+          not: "",
+          siparisadedi: "",
         });
       })
       .catch((err) => console.log(err));
   }
+  const history = useHistory();
+  const toSuccess = () => {
+    history.push("/Success");
+  };
   return (
-    <div className="ordercontainer">
-      <form onSubmit={handleSubmit}>
-        <div className="hamburgerselection">
-          <h3>Choose type of hamburger.</h3>
-          <select
-            name="hamburgerselection"
-            value={form.hamburgerselection}
-            onChange={handleChange}
-          >
-            <option value="">Choose type of hamburger.</option>
-            <option value="chickenburger">Chicken Burger</option>
-            <option value="doubleburger">Double Burger </option>
-            <option value="cheeseburger">Cheese Burger</option>
-            <option value="specialburger">Special Burger</option>
-          </select>
-          {errors.hamburgerselection && <p>{errors.hamburgerselection}</p>}
+    <div className="pizza_siparis">
+      <div className="ilkbolum">
+        <h2>Position Absolute Acı Pizza</h2>
+        <br />
+        <div className="puanlama">
+          <h3 className="bold">85,50 ₺</h3>
+          <p className="thin">4.9</p>
+          <p className="thin">(200)</p>
         </div>
-        <div className="menuselection">
-          <h3>Select menu size.</h3>
-          <input
-            type="radio"
-            value="Small"
-            name="size"
-            checked={form.size === "Small"}
-            onChange={handleChange}
-          />{" "}
-          Small
-          <input
-            type="radio"
-            value="Medium"
-            name="size"
-            checked={form.size === "Medium"}
-            onChange={handleChange}
-          />{" "}
-          Medium
-          <input
-            type="radio"
-            value="Large"
-            name="size"
-            checked={form.size === "Large"}
-            onChange={handleChange}
-          />{" "}
-          Large
-          {errors.menuselection && <p>{errors.menuselection}</p>}
-        </div>
-        <div className="hamburgerstuff">
-          <h3>choose extra material.</h3>
-          <label>
-            <input
-              type="checkbox"
-              name="Mushrooms"
-              id="Mushrooms"
-              value={form.Mushrooms}
+        <p className="paragraf">
+          Frontend Dev olarak hala position:absolute kullanıyorsan bu çok acı
+          pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli
+          diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun
+          ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak,
+          düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli
+          lezzetli bir yemektir.. Küçük bir pizzaya bazen pizzetta denir.
+        </p>
+      </div>
+      <br />
+      <div className="siparis_alan">
+        <form onSubmit={handleSubmit}>
+          <div className="pizza_kalinlik">
+            <h3>Hamur Kalınlığını Seçiniz</h3>
+            <select
+              name="pizza_kalinlik"
+              value={form.pizza_kalinlik}
               onChange={handleChange}
-            />
-            Mushrooms
-          </label>
-          <br />
-          <label>
+            >
+              <option value="">Hamur kalınlığını seçin</option>
+              <option value="ince">İnce</option>
+              <option value="orta">Orta</option>
+              <option value="kalin">Kalın</option>
+            </select>
+            {errors.pizza_kalinlik && <p>{errors.pizza_kalinlik}</p>}
+          </div>
+          <div className="pizza_size">
+            <h3>Pizza boyutunu seçin</h3>
             <input
-              type="checkbox"
-              name="Tomatoes"
-              id="Tomatoes"
-              value={form.Tomatoes}
+              type="radio"
+              value="Small"
+              name="size"
+              checked={form.size === "Small"}
               onChange={handleChange}
-            />
-            Tomatoes
-          </label>
-          <br />
-          <label>
+            />{" "}
+            Small
             <input
-              type="checkbox"
-              name="Pepper"
-              id="Pepper"
-              value={form.Pepper}
+              type="radio"
+              value="Medium"
+              name="size"
+              checked={form.size === "Medium"}
               onChange={handleChange}
-            />
-            Pepper
-          </label>
-          <br />
-          <label>
+            />{" "}
+            Medium
             <input
-              type="checkbox"
-              name="Cheddar"
-              id="Cheddar"
-              value={form.Cheddar}
+              type="radio"
+              value="Large"
+              name="size"
+              checked={form.size === "Large"}
               onChange={handleChange}
-            />
-            Cheddar
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              name="Lettuce"
-              id="Lettuce"
-              value={form.Lettuce}
-              onChange={handleChange}
-            />
-            Lettuce
-          </label>
-          <br />
-          <label>
-            <input
-              type="checkbox"
-              name="Ketchup"
-              id="Ketchup"
-              value={form.Ketchup}
-              onChange={handleChange}
-            />
-            Ketchup
-            <label>
-              <br />
-            </label>
+            />{" "}
+            Large
+            {errors.pizza_size && <p>{errors.pizza_size}</p>}
+          </div>
+          <div className="pizza_ingredient">
+            <h3>Ekstra malzeme seçin</h3>
             <label>
               <input
                 type="checkbox"
-                name="Mayonnaise"
-                id="Mayonnaise"
-                value={form.Mayonnaise}
+                name="salami"
+                id="salami"
+                value={form.salami}
                 onChange={handleChange}
               />
-              Mayonnaise
+              Salami
             </label>
             <br />
             <label>
               <input
                 type="checkbox"
-                name="Mustard"
-                id="Mustard"
-                value={form.Mustard}
+                name="sausage"
+                id="sausage"
+                value={form.sausage}
                 onChange={handleChange}
               />
-              Mustard
+              Sausage
             </label>
             <br />
-          </label>
-        </div>
-        <div className="name">
-          <h3>Contact Information</h3>
-
-          <label>
-            Name:
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.name && <p>{errors.name}</p>}
-        </div>
-        <div className="adress">
-          <label>
-            Adress:
-            <input
-              type="text"
-              name="adress"
-              value={form.adress}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.adress && <p>{errors.adress}</p>}
-        </div>
-        <div className="telephone">
-          <label>
-            Telephone:
-            <input
-              type="text"
-              name="telephone"
-              value={form.telephone}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.telephone && <p>{errors.telephone}</p>}
-        </div>
-
-        <div className="ordernot">
-          <h3>Order Not:</h3>
-          <br />
-          <label>
-            <input
-              type="text"
-              name="ordernot"
-              value={form.ordernot}
-              onChange={handleChange}
-            />
-          </label>
-          {errors.ordernot && <p>{errors.ordernot}</p>}
-        </div>
-        <div className="numberoforders">
-          <h3>Number of Orders:</h3>
-          <label>
-            <input
-              type="number"
-              name="numberoforders"
-              value={form.numberoforders}
-              min="1"
-              onChange={handleChange}
-            />
-          </label>
-          {errors.numberoforders && <p>{errors.numberoforders}</p>}
-        </div>
-        <input
-          type="submit"
-          name="button"
-          disabled={buttonDisabledMı}
-          value="Send Order"
-        />
-        {newOrder && (
-          <p className="confirmation">Your order has been Confirmed</p>
-        )}
-      </form>
+            <label>
+              <input
+                type="checkbox"
+                name="tomatoes"
+                id="tomatoes"
+                value={form.tomatoes}
+                onChange={handleChange}
+              />
+              Tomatoes
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                name="mushrooms"
+                id="mushrooms"
+                value={form.mushrooms}
+                onChange={handleChange}
+              />
+              Mushrooms
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                name="pepper"
+                id="pepper"
+                value={form.pepper}
+                onChange={handleChange}
+              />
+              Pepper
+            </label>
+            <br />
+            <label>
+              <input
+                type="checkbox"
+                name="mint"
+                id="mint"
+                value={form.mint}
+                onChange={handleChange}
+              />
+              Mint
+              <label>
+                <br />
+              </label>
+            </label>
+          </div>
+          <div className="isim_soyisim">
+            <h3>İletişim Bilgileri</h3>
+            <label>
+              İsim Soyisim:
+              <input
+                type="text"
+                name="isim_soyisim"
+                value={form.isim_soyisim}
+                onChange={handleChange}
+              />
+            </label>
+            {errors.isim_soyisim && <p>{errors.isim_soyisim}</p>}
+          </div>
+          <div className="adres">
+            <label>
+              Adres:
+              <input
+                type="text"
+                name="adres"
+                value={form.adres}
+                onChange={handleChange}
+              />
+            </label>
+            {errors.adres && <p>{errors.adres}</p>}
+          </div>
+          <div className="telefon">
+            <label>
+              Telefon:
+              <input
+                type="text"
+                name="telefon"
+                value={form.telefon}
+                onChange={handleChange}
+              />
+            </label>
+            {errors.telefon && <p>{errors.telefon}</p>}
+          </div>
+          <div className="siparis_notu">
+            <h3>Sipariş Notu</h3>
+            <br />
+            <label>
+              <input
+                type="text"
+                name="not"
+                value={form.not}
+                onChange={handleChange}
+              />
+            </label>
+            {errors.not && <p>{errors.not}</p>}
+          </div>
+          <div className="siparisadedi">
+            <h3>Sipariş Adedi</h3>
+            <label>
+              <input
+                type="number"
+                name="siparisadedi"
+                value={form.siparisadedi}
+                min="1"
+                onChange={handleChange}
+              />
+            </label>
+            {errors.siparisadedi && <p>{errors.siparisadedi}</p>}
+          </div>
+          <button onClick={toSuccess}>
+            <input type="submit" name="button" disabled={buttonDisabledMı} />
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

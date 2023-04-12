@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #ce2829;
+  display: flex;
+}
+
+.heading {
+  text-align: center;
+  color: #ce2829;
+  margin-top: 3%;
+  font-size: 30px;
+}
+
+button {
+  padding: 30px;
+  border-radius: 25px;
+  font-family: "Barlow", sans-serif;
+  font-weight: bold;
+  font-size: 1.7rem;
+  transition: 0.7s;
+  border: 1px solid #faf7f2;
+  margin-top: 1%;
+  cursor: pointer;
+  color: #292929;
+  align-items: center;
+}
+
+button:hover {
+  background-color: #ce2829;
+}

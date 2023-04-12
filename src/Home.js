@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import "./Home.css";
 import Types from "./Types.js";
 import { type } from "@testing-library/user-event/dist/type";
@@ -20,7 +20,7 @@ const typesofhamburgers = [
   },
   {
     image:
-      "https://i.pinimg.com/564x/90/af/0a/90af0a944653e327392db5c54bb44bdd.jpg",
+      "https://i.pinimg.com/564x/a2/8d/3a/a28d3a7d8fd1779574cd6016888b1870.jpg",
     type: "Chicken Burger",
     preptime: "10-20 Min",
     cost: "$7 ",
@@ -30,18 +30,31 @@ const typesofhamburgers = [
 export default function Home() {
   return (
     <div className="home">
-      <div className="hamburger">
-        <img
-          src="https://i.pinimg.com/564x/f2/83/8c/f2838cdc73d940342a39c713131e9fac.jpg"
-          alt="hamburger"
-          className="hamburgerImg"
-        />
-      </div>
-      <div className="stores">
+      <div className="types">
         {typesofhamburgers.map((event) => (
           <Types typesofhamburgers={event} />
         ))}
       </div>
+    </div>
+  );
+}*/
+import React from "react";
+import "./Home.css";
+import { useHistory } from "react-router-dom";
+
+export default function Home() {
+  const history = useHistory();
+  const toOrderform = () => {
+    history.push("/Orderform");
+  };
+  return (
+    <div className="Home-container">
+      <div className="heading">
+        <h1 className="tittle">Teknoloji Yemekleri</h1>
+        <h5 className="subtittle">KOD ACIKTIRIR PIZZA,DOYURUR</h5>
+        <button onClick={toOrderform}>ACIKTIM</button>
+      </div>
+      <img alt="pizzaphoto" src="mvp-banner.png" />
     </div>
   );
 }

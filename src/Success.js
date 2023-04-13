@@ -3,9 +3,6 @@ import { useHistory } from "react-router-dom";
 import "./Success.css";
 
 export default function Success(props) {
-  const { alreadyOrdered } = props;
-  console.log(alreadyOrdered);
-
   const history = useHistory();
   const toHome = () => {
     history.push("/");
@@ -17,9 +14,8 @@ export default function Success(props) {
           <button className="secondButton" onClick={toHome}>
             ANASAYFAYA DÖN
           </button>
-          <h1 className="successtittle">Teknoloji Yemekleri</h1>
         </div>
-        <p className="confirmation">SİPARİŞİNİZ YOLA ÇIKTI</p>
+        <p className="confirmation">TEBRİKLER! SİPARİŞİNİZ ALINDI!</p>
         <img
           src="https://media.tenor.com/vgWNUVgKiMUAAAAj/cute-adorable.gif"
           className="gif"

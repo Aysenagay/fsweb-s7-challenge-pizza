@@ -3,27 +3,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as yup from "yup";
 import { useHistory } from "react-router-dom";
-import Success from "./Success";
 
 const schema = yup.object().shape({
   pizza_kalinlik: yup.string().required("Seçim yapınız."),
-  isim_soyisim: yup
-    .string()
-    .required()
-    .min(3, "isim en az 3 karakter olmalıdır"),
   size: yup
     .string()
     .oneOf(["Small", "Medium", "Large"], "Boyutlardan birini seçmelisiniz.")
     .required(),
-  adres: yup
-    .string()
-    .required("Adres alanı girilmelidir.")
-    .min(10, "En az 10 karakter girilmelidir."),
-  telefon: yup
-    .number()
-    .typeError("Numara sayı olarak girilmeli.")
-    .required("Lütfen telefon numarası girin.")
-    .min(10, "Telefon numarası 10 hane olarak girilmelidir."),
   siparisadedi: yup.number().required("Lütfen sipariş adedini girin!"),
 
   salami: yup.boolean().oneOf([true, false], ""),
@@ -46,9 +32,6 @@ export default function Form() {
     mushrooms: false,
     pepper: false,
     mint: false,
-    isim_soyisim: "",
-    adres: "",
-    telefon: "",
     not: "",
     siparisadedi: "",
   });
@@ -62,9 +45,6 @@ export default function Form() {
     mushrooms: "",
     pepper: "",
     mint: "",
-    isim_soyisim: "",
-    adres: "",
-    telefon: "",
     not: "",
     siparisadedi: "",
   });
@@ -95,6 +75,7 @@ export default function Form() {
           [name]: "",
         });
       })
+
       .catch((err) => {
         setErrors({
           ...errors,
@@ -119,9 +100,6 @@ export default function Form() {
           mushrooms: false,
           pepper: false,
           mint: false,
-          isim_soyisim: "",
-          adres: "",
-          telefon: "",
           not: "",
           siparisadedi: "",
         });
@@ -134,6 +112,9 @@ export default function Form() {
   };
   return (
     <div className="pizza_siparis">
+      <div className="ordertittle">
+        <h1 className="order_title">Teknolojik Yemekler</h1>
+      </div>
       <div className="ilkbolum">
         <h2>Position Absolute Acı Pizza</h2>
         <br />
@@ -155,7 +136,9 @@ export default function Form() {
       <div className="siparis_alan">
         <form onSubmit={handleSubmit}>
           <div className="pizza_kalinlik">
-            <h3>Hamur Kalınlığını Seçiniz</h3>
+            <h3>
+              Hamur Kalınlığını Seçiniz <span style={{ color: "red" }}>*</span>
+            </h3>
             <select
               name="pizza_kalinlik"
               value={form.pizza_kalinlik}
@@ -169,7 +152,9 @@ export default function Form() {
             {errors.pizza_kalinlik && <p>{errors.pizza_kalinlik}</p>}
           </div>
           <div className="pizza_size">
-            <h3>Pizza boyutunu seçin</h3>
+            <h3 className="pizzaboyut">
+              Pizza boyutunu seçin<span style={{ color: "red" }}>*</span>
+            </h3>
             <input
               type="radio"
               value="Small"
@@ -196,8 +181,10 @@ export default function Form() {
             Large
             {errors.pizza_size && <p>{errors.pizza_size}</p>}
           </div>
-          <div className="pizza_ingredient">
-            <h3>Ekstra malzeme seçin</h3>
+          <div className="pizza_icerik">
+            <h3>
+              Ekstra malzeme seçin<span style={{ color: "red" }}>*</span>
+            </h3>
             <label>
               <input
                 type="checkbox"
@@ -267,46 +254,9 @@ export default function Form() {
               </label>
             </label>
           </div>
-          <div className="isim_soyisim">
-            <h3>İletişim Bilgileri</h3>
-            <label>
-              İsim Soyisim:
-              <input
-                type="text"
-                name="isim_soyisim"
-                value={form.isim_soyisim}
-                onChange={handleChange}
-              />
-            </label>
-            {errors.isim_soyisim && <p>{errors.isim_soyisim}</p>}
-          </div>
-          <div className="adres">
-            <label>
-              Adres:
-              <input
-                type="text"
-                name="adres"
-                value={form.adres}
-                onChange={handleChange}
-              />
-            </label>
-            {errors.adres && <p>{errors.adres}</p>}
-          </div>
-          <div className="telefon">
-            <label>
-              Telefon:
-              <input
-                type="text"
-                name="telefon"
-                value={form.telefon}
-                onChange={handleChange}
-              />
-            </label>
-            {errors.telefon && <p>{errors.telefon}</p>}
-          </div>
+
           <div className="siparis_notu">
             <h3>Sipariş Notu</h3>
-            <br />
             <label>
               <input
                 type="text"
@@ -317,8 +267,13 @@ export default function Form() {
             </label>
             {errors.not && <p>{errors.not}</p>}
           </div>
+          <p>
+            --------------------------------------------------------------------------------------------------------
+          </p>
           <div className="siparisadedi">
-            <h3>Sipariş Adedi</h3>
+            <h3>
+              Sipariş Adedi<span style={{ color: "red" }}>*</span>
+            </h3>
             <label>
               <input
                 type="number"
@@ -330,9 +285,26 @@ export default function Form() {
             </label>
             {errors.siparisadedi && <p>{errors.siparisadedi}</p>}
           </div>
-          <button onClick={toSuccess}>
-            <input type="submit" name="button" disabled={buttonDisabledMı} />
-          </button>
+
+          <div className="ordertoplam">
+            <h2>Sipariş Toplamı</h2>
+            <div className="toplam1">
+              <p>Seçimler</p>
+              <p>25.00 ₺</p>
+            </div>
+            <div className="toplam2">
+              <p>Toplam</p>
+              <p>110.50 ₺</p>
+            </div>
+            <button
+              className="orderbutton"
+              type="submit"
+              disabled={buttonDisabledMı}
+              onClick={toSuccess}
+            >
+              SİPARİŞİ GÖNDER
+            </button>{" "}
+          </div>
         </form>
       </div>
     </div>
